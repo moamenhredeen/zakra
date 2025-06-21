@@ -1,0 +1,83 @@
+<div class="fixed top-0 left-0 right-0 z-100">
+    @if(loading()) {
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    }
+</div>
+<mat-sidenav-container class="h-screen">
+    <mat-sidenav mode="side" [opened]="sidenavOpened()">
+        <div class="p-4 flex flex-col h-full">
+            <h1 class="text-2xl p-4">Zakra</h1>
+            <mat-nav-list>
+                @for(item of navItems; track item.name){
+                <mat-list-item [activated]="isRouteActive(item.url)" [routerLink]="[item.url]">
+                    <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
+                    <h3 matListItemTitle>{{item.name}}</h3>
+                </mat-list-item>
+                }
+            </mat-nav-list>
+
+            <!-- Collections -->
+            <div mat-subheader class="mt-4 flex items-center justify-between px-2">
+                <span>Collections</span>
+                <button matIconButton (click)="openDetails('create-collection')">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+            <mat-nav-list>
+                @for (item of collections(); track item.id) {
+                <mat-list-item [routerLink]="['bookmark', 'collection', item.id]">
+                    <mat-icon matListItemIcon>folder</mat-icon>
+                    <h3 matListItemTitle>{{item.name | titlecase }}</h3>
+                </mat-list-item>
+                }
+            </mat-nav-list>
+
+            <!-- Tags -->
+            <div mat-subheader class="mt-4 flex justify-between px-2">
+                <span>Tags</span>
+                <button matIconButton (click)="openDetails('create-tag')">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+            <mat-nav-list>
+                @for (item of tags(); track item.id) {
+                <mat-list-item [routerLink]="['bookmark', 'tag', item.id]">
+                    <mat-icon matListItemIcon>tag</mat-icon>
+                    <h3 matListItemTitle>{{item.name | titlecase }}</h3>
+                </mat-list-item>
+                }
+            </mat-nav-list>
+
+            <span class="flex-1"></span>
+            <mat-nav-list>
+                <mat-list-item [routerLink]="['/app/settings']">
+                    <mat-icon matListItemIcon>settings</mat-icon>
+                    <h3 matListItemTitle>Settings</h3>
+                </mat-list-item>
+            </mat-nav-list>
+        </div>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar class="flex gap-2 justify-between items-center">
+            <div class="flex items-center gap-2">
+                <button matIconButton aria-label="menu icon" (click)="toggleSidebar()">
+                    <mat-icon>menu</mat-icon>
+                </button>
+                <span>My App</span>
+            </div>
+            <div class="flex items-center gap-2" (click)="toggleTheme()">
+                <button matIconButton aria-label="share icon">
+                    <mat-icon>light_mode</mat-icon>
+                </button>
+            </div>
+        </mat-toolbar>
+        <main class="p-4">
+            <router-outlet />
+        </main>
+    </mat-sidenav-content>
+
+    <mat-sidenav [opened]="detailsSideOpened$ | async" [disableClose]="true" position="end" class="details-sidebar">
+
+        <router-outlet name="details" />
+    </mat-sidenav>
+</mat-sidenav-container>

@@ -1,0 +1,25 @@
+<div class="p-4">
+    @if(collection.hasValue()) {
+    <h1 class="text-4xl">{{collection.value().name | titlecase }}</h1>
+    } 
+
+    <div class="grid grid-cols-6 gap-8 mt-8">
+        @if(bookmarks.hasValue()){
+            @for(item of bookmarks.value().items; track item.id){
+            <mat-card appearance="outlined" class="justify-between">
+                <mat-card-header>
+                    <mat-card-title>{{item.title}}</mat-card-title>
+                    <mat-card-subtitle>{{item.description}}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-actions align="end">
+                    <a matIconButton [href]="item.url" target="_blank">
+                        <mat-icon>open_in_new</mat-icon>
+                    </a>
+                </mat-card-actions>
+            </mat-card>
+            } @empty {
+                <h3 class="col-span-full mt-4 text-4xl text-zinc-400 select-none">Empty Collection</h3>
+            }
+        }     
+    </div>
+</div>

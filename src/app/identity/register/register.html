@@ -1,0 +1,55 @@
+<div class="h-screen w-screen flex flex-col justify-center items-center">
+  <form [formGroup]="registerForm"
+        (ngSubmit)="onSubmit()"
+        class="grid gap-4 border rounded-xl border-zinc-200 shadow py-4 px-8 w-full max-w-[400px]">
+    <h1 class="text-2xl my-4">Register</h1>
+    <fieldset class="flex flex-col">
+      <label class="text-sm text-zinc-800" for="name">First Name</label>
+      <input formControlName="name" id="name" class="px-2 py-1 border rounded-lg border-zinc-200 focus:border-zinc-400 outline-none transition-all" type="text" name="name">
+      @if(name.invalid && (name.dirty || name.touched)){
+        <span class="text-sm text-red-400">Name is required</span>
+      }
+    </fieldset>
+    <fieldset class="flex flex-col">
+      <label class="text-sm text-zinc-800" for="email">Email</label>
+      <input formControlName="email" id="email" class=" px-2 py-1  border rounded-lg border-zinc-200 focus:border-zinc-400 outline-none transition-all" type="text" name="email">
+      @if(email.invalid && (email.dirty || email.touched)){
+        @if (email.hasError('required')) {
+          <span class="text-sm text-red-400">Email is required</span>
+        }
+        @if (email.hasError('email')) {
+          <span class="text-sm text-red-400">Email format is not correct</span>
+        }
+      }
+    </fieldset>
+    <fieldset class="flex flex-col">
+      <label class="text-sm text-zinc-800" for="password">Password</label>
+      <input formControlName="password" id="password" class=" px-2 py-1  border rounded-lg border-zinc-200 focus:border-zinc-400 outline-none transition-all" type="text" name="password">
+      @if(password.invalid && (password.dirty || password.touched)){
+        @if (password.hasError('required')) {
+          <span class="text-sm text-red-400">Password is required</span>
+        }
+      }
+    </fieldset>
+    <fieldset class="flex flex-col">
+      <label class="text-sm text-zinc-800" for="confirmPassword">Confirm Password</label>
+      <input formControlName="confirmPassword" id="confirmPassword" class=" px-2 py-1  border rounded-lg border-zinc-200 focus:border-zinc-400 outline-none transition-all" type="text" name="confirmPassword">
+      @if(confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)){
+        @if (confirmPassword.hasError('required')) {
+          <span class="text-sm text-red-400">Password Confirmation is required</span>
+        }
+        @if (registerForm.hasError('passwordMatchValidator')) {
+          <span class="text-sm text-red-400">Password Confirmation does not match</span>
+        }
+      }
+    </fieldset>
+    <button
+      type="submit"
+      class="bg-black rounded-lg text-white p-2 my-4"
+      [disabled]="!registerForm.valid"
+      [class.bg-zinc-100]="!registerForm.valid"
+      [class.text-zinc-500]="!registerForm.valid"
+      [class.cursor-not-allowed]="!registerForm.valid"
+    >Register</button>
+  </form>
+</div>

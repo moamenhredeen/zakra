@@ -1,0 +1,18 @@
+@use '@angular/material' as mat;
+
+:host{
+    @include mat.sidenav-overrides((
+        container-shape: 0,
+        container-divider-color: var(--mat-sys-surface-container),
+    ))
+}
+
+mat-toolbar{
+    border-bottom: var(--mat-sys-surface-container) 1px solid;
+}
+
+.details-sidebar{
+    @include mat.sidenav-overrides((
+        container-width: 800px,
+    ))
+}

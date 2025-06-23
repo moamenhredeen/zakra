@@ -1,1 +1,20 @@
-<p>create-tag works!</p>
+<div class="flex justify-between m-8">
+  <h1 class="text-2xl">Create Tag</h1>
+  <button matIconButton (click)="closeDetailsPanel()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<form>
+  <div class="flex flex-col m-8">
+    <mat-form-field>
+      <mat-label>Tag Name</mat-label>
+      <input matInput placeholder="Ex. Tools">
+    </mat-form-field>
+  </div>
+
+  <div class="absolute bottom-0 w-full flex justify-end gap-4 bg-surface-container border-t border-t-outline-variant  p-4">
+    <button matButton="outlined" (click)="closeDetailsPanel()">Cancel</button>
+    <button matButton="filled">Save</button>
+  </div>
+</form>

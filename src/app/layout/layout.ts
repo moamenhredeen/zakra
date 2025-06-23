@@ -2,7 +2,13 @@ import {Component, inject, OnInit, Renderer2, signal} from '@angular/core';
 import { Router, RouterLink, RouterOutlet} from '@angular/router';
 import {MatSidenav, MatSidenavContainer, MatSidenavContent} from '@angular/material/sidenav';
 import {MatIcon} from '@angular/material/icon'
-import {MatListItem, MatListItemIcon, MatListItemTitle, MatNavList} from '@angular/material/list';
+import {
+  MatListItem,
+  MatListItemIcon, MatListItemMeta,
+  MatListItemTitle,
+  MatListSubheaderCssMatStyler,
+  MatNavList
+} from '@angular/material/list';
 import {MatIconButton} from '@angular/material/button';
 import {MatToolbar} from '@angular/material/toolbar';
 import { ThemeService } from './theme.service';
@@ -30,9 +36,11 @@ import { LoadingService } from './loading.service';
     RouterLink,
     MatListItemTitle,
     MatListItemIcon,
+    MatListItemMeta,
     TitleCasePipe,
     AsyncPipe,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatListSubheaderCssMatStyler
   ],
 })
 export class Layout implements OnInit {
@@ -42,21 +50,21 @@ export class Layout implements OnInit {
   #bookmarkService = inject(BookmarkService)
   #layoutService = inject(LayoutService)
   #loadingService = inject(LoadingService)
-  
+
   loading = this.#loadingService.loading
   collections = signal<ICollection[]>([])
   tags = signal<ITag[]>([])
   detailsSideOpened$ = this.#layoutService.detailsPanelOpened$
 
   sidenavOpened = signal<boolean>(true)
-  
+
   ngOnInit(): void {
     this.#bookmarkService.getCollections().subscribe({
       next: res => {
         this.collections.set(res.items)
       }
     })
-    
+
     this.#bookmarkService.getTags().subscribe({
       next: res => {
         this.tags.set(res.items)
@@ -68,7 +76,7 @@ export class Layout implements OnInit {
     {name: 'Dashboard', url: '/app/bookmark/dashboard', icon: 'dashboard'},
     {name: 'All Bookmarks', url: '/app/bookmark/list', icon: 'filter_list'},
   ]
-  
+
   isRouteActive(url: string): boolean {
     return this.#router.url === url
   }
@@ -76,13 +84,21 @@ export class Layout implements OnInit {
   toggleSidebar() {
     this.sidenavOpened.set(!this.sidenavOpened())
   }
-  
+
   toggleTheme(){
     this.#themeService.toggleDarkMode()
   }
-  
+
   openDetails(page: string) {
-    this.#router.navigate(['app', 'bookmark', {outlets: { details: 'create-collection'}}])
+    this.#router.navigate(['app', 'bookmark', {outlets: { details: page}}])
     this.#layoutService.openDetailsPanel()
+  }
+
+  deleteTag(event: MouseEvent, id: string) {
+    event.stopImmediatePropagation()
+  }
+
+  deleteCollection(event: MouseEvent, id: string) {
+    event.stopImmediatePropagation()
   }
 }

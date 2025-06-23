@@ -4,7 +4,7 @@
     @include mat.sidenav-overrides((
         container-shape: 0,
         container-divider-color: var(--mat-sys-surface-container),
-    ))
+    ));
 }
 
 mat-toolbar{
@@ -13,6 +13,29 @@ mat-toolbar{
 
 .details-sidebar{
     @include mat.sidenav-overrides((
-        container-width: 800px,
-    ))
+        container-width: 600px,
+    ));
+}
+
+
+.item-actions{
+  pointer-events: all;
+  opacity: 0;
+
+  &:hover {
+    opacity: 100;
+  }
+}
+
+mat-list-item:hover{
+  .item-actions {
+    opacity: 100;
+  }
+}
+
+
+mat-list-item:hover:has(.item-actions:hover) {
+  @include mat.list-overrides((
+    list-item-hover-state-layer-color: transparent,
+  ));
 }

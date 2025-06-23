@@ -28,6 +28,11 @@
                 <mat-list-item [routerLink]="['bookmark', 'collection', item.id]">
                     <mat-icon matListItemIcon>folder</mat-icon>
                     <h3 matListItemTitle>{{item.name | titlecase }}</h3>
+                  <div matListItemMeta class="item-actions">
+                    <button matIconButton (click)="deleteCollection($event, item.id)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
                 </mat-list-item>
                 }
             </mat-nav-list>
@@ -44,6 +49,11 @@
                 <mat-list-item [routerLink]="['bookmark', 'tag', item.id]">
                     <mat-icon matListItemIcon>tag</mat-icon>
                     <h3 matListItemTitle>{{item.name | titlecase }}</h3>
+                  <div  matListItemMeta class="item-actions">
+                    <button matIconButton (click)="deleteTag($event, item.id)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
                 </mat-list-item>
                 }
             </mat-nav-list>
@@ -77,7 +87,6 @@
     </mat-sidenav-content>
 
     <mat-sidenav [opened]="detailsSideOpened$ | async" [disableClose]="true" position="end" class="details-sidebar">
-
         <router-outlet name="details" />
     </mat-sidenav>
 </mat-sidenav-container>

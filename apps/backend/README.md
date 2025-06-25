@@ -1,8 +1,3 @@
-```
-npm install
-npm run dev
-```
+# Zakra backend
 
-```
-open http://localhost:3000
-```
+- uses hono

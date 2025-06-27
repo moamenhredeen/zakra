@@ -2,18 +2,32 @@
   "name": "backend",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
+    "dev": "tsx --env-file=.env src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "test": "NODE_OPTIONS='--import tsx' node --env-file=.env --test",
+    "db:push": "NODE_OPTIONS='--import tsx' drizzle-kit  push",
+    "db:seed": "NODE_OPTIONS='--import tsx' node --env-file=.env ./src/database/seed.ts"
   },
   "dependencies": {
     "@hono/node-server": "^1.14.4",
-    "hono": "^4.8.3"
+    "@hono/zod-validator": "^0.7.0",
+    "@zakra/api-spec": "workspace:*",
+    "bcrypt": "^6.0.0",
+    "drizzle-orm": "^0.44.2",
+    "drizzle-seed": "^0.3.1",
+    "hono": "^4.8.3",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.16.2"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^20.11.17",
-    "tsx": "^4.7.1",
+    "@types/pg": "^8.15.4",
+    "drizzle-kit": "^0.31.2",
+    "tsx": "^4.20.3",
     "typescript": "^5.8.3"
   },
-  "packageManager": "pnpm@10.12.1+sha512.f0dda8580f0ee9481c5c79a1d927b9164f2c478e90992ad268bbb2465a736984391d6333d2c327913578b2804af33474ca554ba29c04a8b13060a717675ae3ac"
+  "packageManager": "pnpm@10.12.1"
 }

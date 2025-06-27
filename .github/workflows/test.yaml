@@ -6,13 +6,13 @@ on:
       - 'apps/backend/**'
       - 'packages/**'
       - 'pnpm-lock.yaml'
-      - '.github/workflows/test-backend.yml'
+      - '.github/workflows/test.yml'
   pull_request:
     paths:
       - 'apps/backend/**'
       - 'packages/**'
       - 'pnpm-lock.yaml'
-      - '.github/workflows/test-backend.yml'
+      - '.github/workflows/test.yml'
 
 jobs:
   test:

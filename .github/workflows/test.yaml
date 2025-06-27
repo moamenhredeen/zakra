@@ -27,4 +27,12 @@ jobs:
 
       - name: Run backend tests
         working-directory: apps/backend
-        run: pnpm test
+        env:
+          HTTP_PORT: 3000
+          DATABASE_HOST: ${{secrets.DATABASE_HOST}}
+          DATABASE_NAME: zakra
+          DATABASE_PORT: 5432
+          DATABASE_USER: ${{secrets.DATABASE_USER}}
+          DATABASE_PASSWORD: ${{secrets.DATABASE_PASSWORD}}
+          JWT_SECRET: ${{secrets.JWT_SECRET}}
+        run: pnpm ci:test

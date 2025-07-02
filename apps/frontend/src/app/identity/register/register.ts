@@ -45,14 +45,12 @@ export class Register {
   onSubmit() {
     const value = this.registerForm.value;
     const subscription = this.#identityService.register({
-      name: value.name as string,
+      firstName: value.name as string,
+      lastName: value.name as string,
+      username: "moamenhredeen",
       email: value.email as string,
       password: value.password as string,
-      passwordConfirm: value.confirmPassword as string,
-      emailVisibility: true
-    }).pipe(
-      switchMap(res => this.#identityService.verify(res.email))
-    ).subscribe({
+    }).subscribe({
       next: res => {
         this.#router.navigate(['/identity/verify-email'])
       },

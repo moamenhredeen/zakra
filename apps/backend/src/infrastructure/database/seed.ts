@@ -1,9 +1,9 @@
 import { seed } from "drizzle-seed";
 import { db } from "./data-source.js";
 import { users } from "./schema.js";
-import bcrypt from 'bcrypt'
+import { hashPassword } from "@infrastructure/security/password-hashing.service.js";
 
-const passwordHash = await bcrypt.hash('12341234', 8)
+const passwordHash = await hashPassword('12341234')
 await seed(db, {
     users,
 }).refine((f) => ({

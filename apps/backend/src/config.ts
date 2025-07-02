@@ -14,6 +14,11 @@ export type IConfig = {
     },
     jwt: {
         secret: string
+    },
+    aws: {
+        acessKeyId: string,
+        acessKeySecret: string,
+        region: string
     }
 }
 
@@ -42,5 +47,10 @@ export const config: IConfig = {
     },
     jwt: {
         secret: env('JWT_SECRET')
-    }
+    },
+    aws: {
+           acessKeyId: env("AWS_ACCESS_KEY_ID"),
+           acessKeySecret: env("AWS_ACCESS_KEY_SECRETE"),
+           region: env("AWS_REGION") 
+       }
 }

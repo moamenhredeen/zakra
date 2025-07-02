@@ -1,1 +1,11 @@
+# node
 node_modules
+
+# JetBrains
+.idea
+
+# zed
+.zed
+
+# vscode
+.vscode

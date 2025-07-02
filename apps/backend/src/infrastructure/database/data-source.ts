@@ -1,5 +1,5 @@
-import { drizzle } from "drizzle-orm/node-postgres";
-import { config } from "../config.js";
+import { drizzle } from 'drizzle-orm/node-postgres'
+import { config } from '@config'
 
 export const db = drizzle({
     connection: {
@@ -8,6 +8,6 @@ export const db = drizzle({
         user: config.database.user,
         password: config.database.password,
         database: config.database.name,
-        ssl: true
-    }
+        ssl: true,
+    },
 })

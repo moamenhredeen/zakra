@@ -24,7 +24,7 @@ export class Login {
     if (this.loginForm.invalid) return
     const value = this.loginForm.value;
     this.#identityService.login({
-      identity: value.email as string,
+      username: value.email as string,
       password: value.password as string
     }).subscribe({
       next: res => {

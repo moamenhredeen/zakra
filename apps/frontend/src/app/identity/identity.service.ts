@@ -3,22 +3,10 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment.development';
 import {BehaviorSubject, Observable, tap} from 'rxjs';
 import {User} from './identity.types';
+import { LoginRequest, RegisterRequest } from '@zakra/api-spec'
 
 
 const TOKEN_KEY = 'auth_token'
-
-export type LoginPayload = {
-  identity: string,
-  password: string
-}
-
-export type RegisterPayload = {
-  name: string,
-  email: string,
-  password: string,
-  passwordConfirm: string,
-  emailVisibility: boolean
-}
 
 export type LoginResponse = {
   token: string,
@@ -51,15 +39,15 @@ export class IdentityService {
     return localStorage.getItem(TOKEN_KEY)
   }
 
-  register(payload: RegisterPayload): Observable<User> {
-    return this.#http.post<User>(`${environment.apiUrl}/collections/users/records`, payload)
+  register(payload: RegisterRequest): Observable<User> {
+    return this.#http.post<User>(`${environment.apiUrl}/identity/register`, payload)
   }
 
   verify(email: string){
     return this.#http.post<void>(`${environment.apiUrl}/collections/users/request-verification`, {email})
   }
 
-  login(payload: LoginPayload): Observable<LoginResponse> {
+  login(payload: LoginRequest): Observable<LoginResponse> {
     return this.#http.post<LoginResponse>(`${environment.apiUrl}/collections/users/auth-with-password`, payload).pipe(
       tap(response => {
         this.#isAuthenticated = true

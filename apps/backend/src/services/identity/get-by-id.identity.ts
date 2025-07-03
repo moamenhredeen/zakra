@@ -1,10 +1,10 @@
-import { isNull, and, eq } from 'drizzle-orm'
+import { and, eq, isNull } from 'drizzle-orm'
 import { db } from '@infrastructure/database/data-source.js'
 import { users } from '@infrastructure/database/schema.js'
 
 // -----------------------  types  -----------------------
 export type GetByIdResult = {
-    id: string
+    id: number
     username: string
     firstName: string
     lastName: string
@@ -14,10 +14,10 @@ export type GetByIdResult = {
 // -----------------------  public api  -----------------------
 /**
  * get user by id
- * @param userId the id of the user
+ * @param id the id of the user
  * @throws Error if user was not found
  */
-export async function getUserById(id: string): Promise<GetByIdResult> {
+export async function getUserById(id: number): Promise<GetByIdResult> {
     if (!id) {
         throw new Error('invalid id')
     }

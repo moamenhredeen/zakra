@@ -25,7 +25,8 @@ export class Register {
   #router = inject(Router)
 
   registerForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
+    firstName: new FormControl('', [Validators.required]),
+    lastName: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
     confirmPassword: new FormControl('', [Validators.required])
@@ -45,8 +46,8 @@ export class Register {
   onSubmit() {
     const value = this.registerForm.value;
     const subscription = this.#identityService.register({
-      firstName: value.name as string,
-      lastName: value.name as string,
+      firstName: value.firstName as string,
+      lastName: value.lastName as string,
       username: "moamenhredeen",
       email: value.email as string,
       password: value.password as string,
@@ -60,8 +61,12 @@ export class Register {
     })
   }
 
-  get name(): FormControl<string>  {
-    return this.registerForm.get('name') as FormControl<string>
+  get firstName(): FormControl<string>  {
+    return this.registerForm.get('firstName') as FormControl<string>
+  }
+
+  get lastName(): FormControl<string>  {
+    return this.registerForm.get('lastName') as FormControl<string>
   }
 
   get email(): FormControl<string>  {

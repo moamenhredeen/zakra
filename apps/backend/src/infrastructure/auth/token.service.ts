@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken'
 
 // ----------------------- types -----------------------
 export type TokenPayload = {
-    userId: string
+    userId: number
 }
 
 export type VerifyTokenResult = {
@@ -22,10 +22,16 @@ export function generateToken(payload: TokenPayload): string {
 export function verifyToken(token: string): VerifyTokenResult {
     try {
         const payload = jwt.verify(token, config.jwt.secret, {})
+        if (typeof payload.sub !== 'string') {
+            return { isValid: false }
+        }
+        if (Number.isNaN(payload.sub)) {
+            return { isValid: false }
+        }
         return {
             isValid: true,
             payload: {
-                userId: payload.sub as string,
+                userId: Number.parseInt(payload.sub),
             },
         }
     } catch (err) {

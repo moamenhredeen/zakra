@@ -4,6 +4,7 @@ import { hashPassword } from '@infrastructure/security/password-hashing.service.
 import { logError } from '@infrastructure/logging/logger.js'
 import { generateToken } from '@infrastructure/auth/token.service.js'
 import { sendVerificationEmail } from '@infrastructure/email/email.service.js'
+import { and, eq, isNull } from 'drizzle-orm'
 
 // -----------------------  types  -----------------------
 
@@ -21,6 +22,21 @@ export type RegisterUserParams = {
  */
 export async function register(params: RegisterUserParams): Promise<void> {
     try {
+        const selectedRows = await db
+            .select()
+            .from(users)
+            .where(and(isNull(users.deleted_at), eq(users.email, params.email)))
+
+        if (selectedRows.length === 1) {
+            const user = selectedRows[0]
+            if (user.verified) {
+                return
+            }
+            // user is not verified
+            await verify(user.id, user.email)
+            return
+        }
+
         const passwordHash = await hashPassword(params.password)
         const rows = await db
             .insert(users)
@@ -33,17 +49,20 @@ export async function register(params: RegisterUserParams): Promise<void> {
                 verified: false,
             })
             .returning()
-
         const user = rows[0]
-        const token = generateToken({
-            userId: user.id,
-        })
-        await sendVerificationEmail({
-            to: user.email,
-            token,
-        })
+        await verify(user.id, user.email)
     } catch (err) {
         logError(err)
         // TODO: handle error
     }
+}
+
+async function verify(id: number, email: string): Promise<void> {
+    const token = generateToken({
+        userId: id,
+    })
+    await sendVerificationEmail({
+        to: email,
+        token,
+    })
 }

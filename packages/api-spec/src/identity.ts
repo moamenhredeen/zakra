@@ -1,4 +1,4 @@
-import { z } from "zod/v4";
+import {z} from "zod/v4";
 
 // -------------------------------- Register --------------------------------
 
@@ -30,7 +30,7 @@ export type LoginRequest = z.infer<typeof LoginRequestSchema>;
 
 // -------------------------------- get by id --------------------------------
 export const GetByIdRequestSchema = z.object({
-  id: z.string(),
+  id: z.coerce.number(),
 });
 
 export type GetByIdRequest = z.infer<typeof GetByIdRequestSchema>;

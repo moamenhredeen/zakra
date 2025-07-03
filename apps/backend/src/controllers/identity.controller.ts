@@ -5,9 +5,9 @@ import { getUserById } from '@services/identity/get-by-id.identity.js'
 import { verifyEmail } from '@services/identity/verify-email.identity.js'
 import { zValidator } from '@hono/zod-validator'
 import {
-    RegisterRequestSchema,
-    LoginRequestSchema,
     GetByIdRequestSchema,
+    LoginRequestSchema,
+    RegisterRequestSchema,
     VerifyEmailRequestSchema,
 } from '@zakra/api-spec'
 import { HTTPException } from 'hono/http-exception'
@@ -29,7 +29,7 @@ identityApp.post(
 )
 
 identityApp.get(
-    '/verify/token',
+    '/verify/:token',
     zValidator('param', VerifyEmailRequestSchema),
     async (c, _) => {
         try {

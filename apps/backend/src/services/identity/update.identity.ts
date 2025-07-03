@@ -4,14 +4,14 @@ import { users } from '@infrastructure/database/schema.js'
 
 // -------------------------------- types --------------------------------
 export type UpdateUserParams = {
-    id: string
+    id: number
     firstName?: string
     lastName?: string
     username?: string
 }
 
 export type UpdateUserResult = {
-    id: string
+    id: number
     username: string
     firstName: string
     lastName: string

@@ -4,7 +4,6 @@ import {
     pgTable,
     primaryKey,
     timestamp,
-    uuid,
     varchar,
 } from 'drizzle-orm/pg-core'
 
@@ -15,7 +14,7 @@ const timestamps = {
 }
 
 export const users = pgTable('users', {
-    id: uuid().primaryKey().defaultRandom(),
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
     username: varchar().notNull(),
     email: varchar().notNull().unique(),
     first_name: varchar().notNull(),
@@ -26,21 +25,21 @@ export const users = pgTable('users', {
 })
 
 export const tags = pgTable('tags', {
-    id: uuid().primaryKey().defaultRandom(),
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
     name: varchar().notNull(),
     description: varchar(),
     ...timestamps,
 })
 
 export const collections = pgTable('collections', {
-    id: uuid().primaryKey().defaultRandom(),
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
     name: varchar().notNull(),
     description: varchar(),
     ...timestamps,
 })
 
 export const bookmarks = pgTable('bookmarks', {
-    id: uuid().primaryKey().defaultRandom(),
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
     name: varchar().notNull(),
     url: varchar().notNull(),
     description: varchar(),
@@ -56,10 +55,10 @@ export const bookmarks = pgTable('bookmarks', {
 export const bookmarksToTags = pgTable(
     'bookmarks_to_tags',
     {
-        tag_id: uuid()
+        tag_id: integer()
             .notNull()
             .references(() => tags.id),
-        bookmark_id: uuid()
+        bookmark_id: integer()
             .notNull()
             .references(() => bookmarks.id),
     },

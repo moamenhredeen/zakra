@@ -1,9 +1,10 @@
 import {
-    SESClient,
     SendEmailCommand,
     type SendEmailCommandInput,
+    SESClient,
 } from '@aws-sdk/client-ses'
-import { config } from '../../config.js'
+import { config } from '@config'
+import { logDebug, logError } from '@infrastructure/logging/logger.js'
 
 // ----------------------- types -----------------------
 export type SendEmailParams = {
@@ -12,7 +13,7 @@ export type SendEmailParams = {
 }
 
 // ----------------------- constants -----------------------
-const SOURCE = 'zakra.guad.app'
+const SOURCE = 'contact@guad.app'
 
 const sesClient = new SESClient({
     credentials: {
@@ -27,6 +28,7 @@ const sesClient = new SESClient({
 export async function sendVerificationEmail(
     params: SendEmailParams
 ): Promise<void> {
+    logDebug(`send verification email to ${params.to}`)
     const input: SendEmailCommandInput = {
         Source: SOURCE,
         Destination: {
@@ -46,6 +48,10 @@ export async function sendVerificationEmail(
         },
     }
 
-    const command = new SendEmailCommand(input)
-    await sesClient.send(command)
+    try {
+        const command = new SendEmailCommand(input)
+        await sesClient.send(command)
+    } catch (err) {
+        logError(err)
+    }
 }

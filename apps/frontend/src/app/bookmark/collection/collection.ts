@@ -1,10 +1,11 @@
 import { Component, inject, input } from '@angular/core';
-import { BookmarkService, IBookmark, ICollection, IGetResponse } from '../bookmark.service';
+import { BookmarkService } from '../bookmark.service';
 import { MatCard, MatCardTitle, MatCardHeader, MatCardActions, MatCardSubtitle } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 import { httpResource, HttpResourceRef } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
 import { TitleCasePipe } from '@angular/common';
+import { GetBookmarksResponse, GetCollectionsResponse, PaginatedResponse } from '@zakra/api-spec';
 
 @Component({
   templateUrl: './collection.html',
@@ -24,11 +25,11 @@ export class Collection  {
 
   id = input.required<string>()
 
-  collection!: HttpResourceRef<ICollection | undefined>
-  bookmarks!: HttpResourceRef<IGetResponse<IBookmark[]> | undefined>
+  collection!: HttpResourceRef<GetCollectionsResponse | undefined>
+  bookmarks!: HttpResourceRef<PaginatedResponse<GetBookmarksResponse> | undefined>
 
   constructor() {
-    this.collection = httpResource<ICollection>(() => `${environment.apiUrl}/collections/collections/records/${this.id()}`,)
-    this.bookmarks = httpResource<IGetResponse<IBookmark[]>>(() => `${environment.apiUrl}/collections/bookmarks/records?filter=(collection='${this.id()}')&expand=tags`,)
+    this.collection = httpResource<GetCollectionsResponse>(() => `${environment.apiUrl}/bookmark/collections/${this.id()}`,)
+    this.bookmarks = httpResource<PaginatedResponse<GetBookmarksResponse>>(() => `${environment.apiUrl}/bookmark/collections/${this.id()}`,)
   }
 }

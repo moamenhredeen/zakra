@@ -25,7 +25,7 @@
 
 
     <!-- Tags -->
-    <div class="flex items-center gap-4 px-6 py-4  border border-outline-variant rounded-xl">
+    <!-- <div class="flex items-center gap-4 px-6 py-4  border border-outline-variant rounded-xl">
       <div class="bg-secondary-container rounded-xl py-2 px-3">
         <mat-icon>tag</mat-icon>
       </div>
@@ -33,7 +33,7 @@
         <h3 class="text-xl text-on-surface">Tags</h3>
         <span class="text-2xl text-on-surface">{{ totalTags() }}</span>
       </div>
-    </div>
+    </div> -->
 
 
     <!-- Pinned -->
@@ -54,7 +54,7 @@
     @for(item of bookmarks(); track item.id){
       <mat-card appearance="outlined" class="justify-between">
         <mat-card-header>
-          <mat-card-title>{{item.title}}</mat-card-title>
+          <mat-card-title>{{item.name}}</mat-card-title>
           <mat-card-subtitle>{{item.description}}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-actions align="end">

@@ -12,11 +12,12 @@ import {
 import {MatIconButton} from '@angular/material/button';
 import {MatToolbar} from '@angular/material/toolbar';
 import { ThemeService } from './theme.service';
-import { BookmarkService, ICollection, ITag } from '../bookmark/bookmark.service';
+import { BookmarkService } from '../bookmark/bookmark.service';
 import { AsyncPipe, TitleCasePipe } from '@angular/common';
 import { LayoutService } from './layout.service';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { LoadingService } from './loading.service';
+import { GetCollectionsResponse } from '@zakra/api-spec';
 
 
 @Component({
@@ -52,8 +53,7 @@ export class Layout implements OnInit {
   #loadingService = inject(LoadingService)
 
   loading = this.#loadingService.loading
-  collections = signal<ICollection[]>([])
-  tags = signal<ITag[]>([])
+  collections = signal<GetCollectionsResponse[]>([])
   detailsSideOpened$ = this.#layoutService.detailsPanelOpened$
 
   sidenavOpened = signal<boolean>(true)
@@ -62,12 +62,6 @@ export class Layout implements OnInit {
     this.#bookmarkService.getCollections().subscribe({
       next: res => {
         this.collections.set(res.items)
-      }
-    })
-
-    this.#bookmarkService.getTags().subscribe({
-      next: res => {
-        this.tags.set(res.items)
       }
     })
   }

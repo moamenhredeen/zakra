@@ -2,38 +2,8 @@ import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment.development';
 import {Observable} from 'rxjs';
+import { CreateBookmarkRequest, CreateBookmarkResponse, CreateCollectionRequest, CreateCollectionResponse, DeleteBookmarkResponse, DeleteCollectionResponse, GetBookmarksResponse, GetCollectionsResponse, PaginatedResponse, UpdateBookmarkRequest, UpdateBookmarkResponse } from '@zakra/api-spec';
 
-export type IBookmark = {
-  id: string,
-  title: string,
-  description: string,
-  url: string,
-  user: string,
-  expand?: {
-    tags: ITag[],
-    collection: ICollection
-  }
-  created: Date,
-  updated: Date
-}
-
-export type ITag = {
-  id: string
-  name: string
-}
-
-export type ICollection = {
-  id: string
-  name: string
-}
-
-export type IGetResponse<T> = {
-  page: number,
-  perPage: number,
-  totalPages: number,
-  totalItems: number,
-  items: T
-}
 
 @Injectable({
   providedIn: 'root'
@@ -42,25 +12,38 @@ export class BookmarkService {
 
   #http = inject(HttpClient)
 
-  getBookmarks(): Observable<IGetResponse<IBookmark[]>> {
-    return this.#http.get<IGetResponse<IBookmark[]>>(`${environment.apiUrl}/collections/bookmarks/records?expand=collection,tags`, {
+  // ---------------------------- bookmarks ----------------------------
+
+  getBookmarks(): Observable<PaginatedResponse<GetBookmarksResponse>> {
+    return this.#http.get<PaginatedResponse<GetBookmarksResponse>>(`${environment.apiUrl}/bookmark`, {
     })
   }
   
-  getBookmarksByCollectionId(id: string): Observable<IGetResponse<IBookmark[]>> {
-    return this.#http.get<IGetResponse<IBookmark[]>>(`${environment.apiUrl}/collections/bookmarks/records?filter=(collection='${id}')`)
+  createBookmark(bookmark: CreateBookmarkRequest): Observable<CreateBookmarkResponse> {
+    return this.#http.post<CreateBookmarkResponse>(`${environment.apiUrl}/bookmark`, bookmark)
   }
   
-  getCollections(): Observable<IGetResponse<ICollection[]>> {
-    return this.#http.get<IGetResponse<ICollection[]>>(`${environment.apiUrl}/collections/collections/records`)
+  updateBookmark(bookmark: UpdateBookmarkRequest): Observable<UpdateBookmarkResponse> {
+    return this.#http.put<UpdateBookmarkResponse>(`${environment.apiUrl}/bookmark/${bookmark.id}`, bookmark)
   }
   
-  getTags(): Observable<IGetResponse<ITag[]>> {
-    return this.#http.get<IGetResponse<ITag[]>>(`${environment.apiUrl}/collections/tags/records`)
+  deleteBookmark(id: number): Observable<DeleteBookmarkResponse> {
+    return this.#http.delete<DeleteBookmarkResponse>(`${environment.apiUrl}/bookmark/${id}`)
   }
   
-  getCollectionById(id: string): Observable<ICollection> {
-    return this.#http.get<ICollection>(`${environment.apiUrl}/collections/collections/records/${id}`)
+  
+  // ---------------------------- collections ----------------------------
+
+  getCollections(): Observable<PaginatedResponse<GetCollectionsResponse>> {
+    return this.#http.get<PaginatedResponse<GetCollectionsResponse>>(`${environment.apiUrl}/bookmark/collections`)
+  }
+  
+  createCollection(collection: CreateCollectionRequest): Observable<CreateCollectionResponse> {
+    return this.#http.post<CreateCollectionResponse>(`${environment.apiUrl}/bookmark/collections`, collection)
+  }
+  
+  deleteCollection(id: number): Observable<DeleteCollectionResponse> {
+    return this.#http.delete<DeleteCollectionResponse>(`${environment.apiUrl}/bookmark/collections/${id}`)
   }
 }
 

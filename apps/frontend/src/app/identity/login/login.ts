@@ -12,19 +12,26 @@ import {Router} from '@angular/router';
 })
 export class Login {
 
-  #identityService = inject(IdentityService)
-  #router = inject(Router)
-
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
   })
+  #identityService = inject(IdentityService)
+  #router = inject(Router)
+
+  get email(): FormControl<string>  {
+    return this.loginForm.get('email') as FormControl<string>
+  }
+
+  get password(): FormControl<string>  {
+    return this.loginForm.get('password') as FormControl<string>
+  }
 
   onSubmit() {
     if (this.loginForm.invalid) return
     const value = this.loginForm.value;
     this.#identityService.login({
-      username: value.email as string,
+      email: value.email as string,
       password: value.password as string
     }).subscribe({
       next: res => {
@@ -34,13 +41,5 @@ export class Login {
 
       }
     })
-  }
-
-  get email(): FormControl<string>  {
-    return this.loginForm.get('email') as FormControl<string>
-  }
-
-  get password(): FormControl<string>  {
-    return this.loginForm.get('password') as FormControl<string>
   }
 }

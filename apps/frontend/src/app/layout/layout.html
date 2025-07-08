@@ -29,7 +29,7 @@
                     <mat-icon matListItemIcon>folder</mat-icon>
                     <h3 matListItemTitle>{{item.name | titlecase }}</h3>
                   <div matListItemMeta class="item-actions">
-                    <button matIconButton (click)="deleteCollection($event, item.id)">
+                    <button matIconButton (click)="deleteCollection($event, item.id.toString())">
                       <mat-icon>delete</mat-icon>
                     </button>
                   </div>
@@ -45,12 +45,12 @@
                 </button>
             </div>
             <mat-nav-list>
-                @for (item of tags(); track item.id) {
+                @for (item of [{id: 1, name: 'tag1'}]; track item.id) {
                 <mat-list-item [routerLink]="['bookmark', 'tag', item.id]">
                     <mat-icon matListItemIcon>tag</mat-icon>
                     <h3 matListItemTitle>{{item.name | titlecase }}</h3>
                   <div  matListItemMeta class="item-actions">
-                    <button matIconButton (click)="deleteTag($event, item.id)">
+                    <button matIconButton (click)="deleteTag($event, item.id.toString())">
                       <mat-icon>delete</mat-icon>
                     </button>
                   </div>

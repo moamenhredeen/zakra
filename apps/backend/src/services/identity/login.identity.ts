@@ -9,7 +9,7 @@ import {
 
 // -----------------------  types  -----------------------
 export type LoginUserParams = {
-    username: string
+    email: string
     password: string
 }
 
@@ -25,9 +25,7 @@ export async function login(params: LoginUserParams): Promise<LoginUserResult> {
     const rows = await db
         .select()
         .from(users)
-        .where(
-            and(isNull(users.deleted_at), eq(users.username, params.username))
-        )
+        .where(and(isNull(users.deleted_at), eq(users.email, params.email)))
     if (!rows || rows.length === 0) {
         throw new Error('user not found')
     }
@@ -40,9 +38,9 @@ export async function login(params: LoginUserParams): Promise<LoginUserResult> {
         throw new Error('password is not correct')
     }
 
-    if (!user.verified) {
-        throw new Error('user is not verified')
-    }
+    // if (!user.verified) {
+    //     throw new Error('user is not verified')
+    // }
 
     const payload: TokenPayload = {
         userId: user.id,

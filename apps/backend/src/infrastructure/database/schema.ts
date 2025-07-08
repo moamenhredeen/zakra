@@ -35,6 +35,9 @@ export const collections = pgTable('collections', {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
     name: varchar().notNull(),
     description: varchar(),
+    user_id: integer()
+        .notNull()
+        .references(() => users.id),
     ...timestamps,
 })
 

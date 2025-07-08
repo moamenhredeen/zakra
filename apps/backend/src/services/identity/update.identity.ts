@@ -7,7 +7,6 @@ export type UpdateUserParams = {
     id: number
     firstName?: string
     lastName?: string
-    username?: string
 }
 
 export type UpdateUserResult = {
@@ -32,7 +31,6 @@ export async function updateUser(
         .set({
             first_name: params.firstName || undefined,
             last_name: params.lastName || undefined,
-            username: params.username || undefined,
         })
         .where(and(isNull(users.deleted_at), eq(users.id, params.id)))
         .returning()

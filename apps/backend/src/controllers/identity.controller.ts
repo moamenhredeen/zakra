@@ -4,11 +4,18 @@ import { login } from '@services/identity/login.identity.js'
 import { getUserById } from '@services/identity/get-by-id.identity.js'
 import { verifyEmail } from '@services/identity/verify-email.identity.js'
 import { zValidator } from '@hono/zod-validator'
+import { updateUser } from '@services/identity/update.identity.js'
 import {
     GetByIdRequestSchema,
     LoginRequestSchema,
     RegisterRequestSchema,
     VerifyEmailRequestSchema,
+    PatchUserRequestSchema,
+    type LoginResponse,
+    type RegisterResponse,
+    type GetUserByIdResponse,
+    type PatchUserResponse,
+    intIdParamSchema,
 } from '@zakra/api-spec'
 import { HTTPException } from 'hono/http-exception'
 
@@ -21,7 +28,7 @@ identityApp.post(
         try {
             const body = c.req.valid('json')
             await register(body)
-            return c.json({ success: true })
+            return c.json<RegisterResponse>({})
         } catch (err) {
             throw new HTTPException(400, { cause: err })
         }
@@ -52,9 +59,9 @@ identityApp.post(
         try {
             const body = c.req.valid('json')
             const result = await login(body)
-            return c.json({
-                success: true,
+            return c.json<LoginResponse>({
                 token: result.token,
+                refreshToken: 'aösldfk',
             })
         } catch (err) {
             throw new HTTPException(400, {
@@ -72,19 +79,27 @@ identityApp.get(
         try {
             const { id } = c.req.valid('param')
             const user = await getUserById(id)
-            return c.json({
-                success: true,
-                data: user,
-            })
+            return c.json<GetUserByIdResponse>(user)
         } catch (err) {
             throw new HTTPException(400, { cause: err })
         }
     }
 )
 
-identityApp.patch('/:id', (c) => {
-    const id = c.req.param('id')
-    return c.json({ success: true, id: id })
-})
+identityApp.patch(
+    '/:id',
+    zValidator('json', PatchUserRequestSchema),
+    zValidator('param', intIdParamSchema),
+    async (c) => {
+        const id = c.req.valid('param')
+        const body = c.req.valid('json')
+        const user = await updateUser({
+            id: id,
+            firstName: body.firstName,
+            lastName: body.lastName,
+        })
+        return c.json<PatchUserResponse>(user)
+    }
+)
 
 export { identityApp }

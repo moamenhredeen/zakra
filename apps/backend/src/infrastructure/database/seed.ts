@@ -3,6 +3,7 @@ import { db } from "./data-source.js";
 import { users } from "./schema.js";
 import { hashPassword } from "@infrastructure/security/password-hashing.service.js";
 
+// default password for all seeded users
 const passwordHash = await hashPassword('12341234')
 await seed(db, {
     users,

@@ -5,6 +5,7 @@ import { cors } from 'hono/cors'
 import { identityApp } from '@controllers/identity.controller.js'
 import { HTTPException } from 'hono/http-exception'
 import { requestId } from 'hono/request-id'
+import { bookmarkApp } from '@controllers/bookmark.controller.js'
 
 const api = new Hono().basePath('/api')
 
@@ -15,6 +16,7 @@ api.use(cors())
 
 // register controllers
 api.route('/identity', identityApp)
+api.route('/bookmark', bookmarkApp)
 
 api.onError((err, c) => {
     if (err instanceof HTTPException) {

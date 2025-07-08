@@ -38,7 +38,7 @@ export async function register(params: RegisterUserParams): Promise<void> {
         }
 
         const passwordHash = await hashPassword(params.password)
-        const rows = await db
+        await db
             .insert(users)
             .values({
                 first_name: params.firstName,
@@ -49,8 +49,8 @@ export async function register(params: RegisterUserParams): Promise<void> {
                 verified: false,
             })
             .returning()
-        const user = rows[0]
-        await verify(user.id, user.email)
+        // const user = rows[0]
+        // await verify(user.id, user.email)
     } catch (err) {
         logError(err)
         // TODO: handle error

@@ -2,15 +2,14 @@
   "name": "@zakra/api-spec",
   "version": "1.0.0",
   "type": "module",
-  "description": "",
-  "exports": {
-    ".": {
-      "import": "./src/index.ts",
-      "require": "./src/index.ts"
-    }
-  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "packageManager": "pnpm@10.12.1",
+  "scripts": {
+    "build": "tsc"
+  },
   "devDependencies": {
+    "@types/node": "^20.19.1",
     "typescript": "^5.8.3"
   },
   "dependencies": {

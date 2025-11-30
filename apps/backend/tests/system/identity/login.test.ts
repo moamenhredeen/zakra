@@ -1,11 +1,11 @@
 import { describe, test } from "node:test";
 import assert from "node:assert";
 
-import app from "../../../src/app.js";
+import { api } from "../../../src/app.js";
 
 describe("POST /identity/login", () => {
     test("login with valid user credentials", async () => {
-        const res = await app.request("/identity/login", {
+        const res = await api.request("/identity/login", {
             method: "POST",
             body: JSON.stringify({
                 username: "Hera",
@@ -19,7 +19,7 @@ describe("POST /identity/login", () => {
     });
 
     test("login with invalid user credentials", async () => {
-        const res = await app.request("/identity/login", {
+        const res = await api.request("/identity/login", {
             method: "POST",
             body: JSON.stringify({
                 username: "Heraxx",
@@ -33,7 +33,7 @@ describe("POST /identity/login", () => {
     });
     
     test("login with invalid payload", async () => {
-          const res = await app.request("/identity/login", {
+          const res = await api.request("/identity/login", {
               method: "POST",
               body: JSON.stringify({
                   name: "Heraxx",

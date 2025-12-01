@@ -2,9 +2,6 @@ import { pino } from 'pino'
 
 const loggerInstance = pino({
     level: 'debug',
-    transport: {
-        target: 'pino-pretty',
-    },
 })
 
 // ----------------------- public api -----------------------

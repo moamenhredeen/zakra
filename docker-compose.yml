@@ -1,0 +1,28 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    networks:
+      - zakra-network
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    env_file:
+      - ./apps/backend/.env
+    networks:
+      - zakra-network
+    ports:
+      - "3000:3000"
+
+networks:
+  zakra-network:
+
+volumes:
+  postgres-data:

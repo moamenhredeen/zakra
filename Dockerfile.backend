@@ -19,14 +19,14 @@ FROM base AS builder
 COPY --from=deps /app /app
 COPY apps/backend ./apps/backend
 COPY packages/api-spec ./packages/api-spec
-RUN pnpm --filter backend build
+RUN pnpm --filter backend... build
 
 # Stage 3: Production dependencies only
 FROM base AS prod-deps
 COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
 COPY apps/backend/package.json ./apps/backend/
 COPY packages/api-spec/package.json ./packages/api-spec/
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+RUN --mount=type=cache,id=zakra-backend,target=/pnpm/store \
     pnpm install --frozen-lockfile --filter backend... --prod
 
 # Stage 4: Final production image
@@ -36,11 +36,14 @@ WORKDIR /app
 # Copy production dependencies
 COPY --from=prod-deps /app/node_modules ./node_modules
 COPY --from=prod-deps /app/apps/backend/node_modules ./apps/backend/node_modules
-COPY --from=prod-deps /app/packages/api-spec ./packages/api-spec
+COPY --from=prod-deps /app/packages/api-spec/node_modules ./packages/api-spec/node_modules
 
 # Copy built application
 COPY --from=builder /app/apps/backend/dist ./apps/backend/dist
-COPY --from=builder /app/apps/backend/package.json ./apps/backend/
+COPY --from=builder /app/apps/backend/package.json ./apps/backend
+COPY --from=builder /app/packages/api-spec/dist ./packages/api-spec/dist
+COPY --from=builder /app/packages/api-spec/package.json ./packages/api-spec/package.json
+
 
 # Set user for security
 RUN addgroup --system --gid 1001 nodejs && \
@@ -50,4 +53,4 @@ USER nodejs
 EXPOSE 3000
 ENV NODE_ENV=production
 
-CMD ["node", "apps/backend/dist/index.js"]
+CMD ["node", "/app/apps/backend/dist/src/index.js"]

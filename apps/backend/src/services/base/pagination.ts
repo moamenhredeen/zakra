@@ -23,11 +23,11 @@ export type PaginationQuery = {
     pageSize?: number,
 }
 
-export const calculatePaginationMeta = (
+export function calculatePaginationMeta (
     page: number,
     pageSize: number,
     total: number
-): PaginationMeta => {
+): PaginationMeta {
     const totalPages = Math.ceil(total / pageSize);
     
     return {

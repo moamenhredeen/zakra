@@ -1,0 +1,26 @@
+{
+  "name": "zakra",
+  "version": "1.0.0",
+  "description": "bookmark manager",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moamenhredeen/zakra.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/moamenhredeen/zakra/issues"
+  },
+  "homepage": "https://github.com/moamenhredeen/zakra#readme",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}

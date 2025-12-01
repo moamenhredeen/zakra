@@ -1,5 +1,5 @@
 import {IEnvironment} from './environment.types';
 
 export const environment: IEnvironment= {
-  apiUrl: 'http://localhost:8090/api'
+  apiUrl: 'https://zakra-api.moamenhredeen.me/api'
 };

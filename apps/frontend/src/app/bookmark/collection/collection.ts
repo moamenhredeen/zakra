@@ -3,7 +3,7 @@ import { BookmarkService } from '../bookmark.service';
 import { MatCard, MatCardTitle, MatCardHeader, MatCardActions, MatCardSubtitle } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 import { httpResource, HttpResourceRef } from '@angular/common/http';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import { TitleCasePipe } from '@angular/common';
 import { GetBookmarksResponse, GetCollectionsResponse, PaginatedResponse } from '@zakra/api-spec';
 
@@ -20,7 +20,7 @@ import { GetBookmarksResponse, GetCollectionsResponse, PaginatedResponse } from 
   ],
 })
 export class Collection  {
-  
+
   #bookmarkService = inject(BookmarkService)
 
   id = input.required<string>()

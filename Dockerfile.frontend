@@ -14,9 +14,9 @@ COPY apps/frontend/ ./apps/frontend/
 COPY packages/api-spec/ ./packages/api-spec/
 
 RUN --mount=type=cache,id=zakra-frontend,target=/pnpm/store \
-    pnpm install --frozen-lockfile --filter ./apps/frontend...
+    pnpm install --frozen-lockfile --filter ./apps/frontend
 
-RUN pnpm --filter ./apps/frontend... build
+RUN pnpm --filter ./apps/frontend build
 
 # Stage 2: Production - Serve with nginx
 FROM nginx:alpine AS runner
